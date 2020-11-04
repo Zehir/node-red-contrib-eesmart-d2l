@@ -8,7 +8,7 @@
         credentials: {
             id_d2l: {
                 required: true,
-                type: "number"
+                type: "text"
             },
             key_application_communication: {
                 required: true,
@@ -36,7 +36,7 @@
         oneditprepare: function () {
             $("#node-input-id_d2l").typedInput({
                 type: "text",
-                types: ["num", "msg", "flow", "global"],
+                types: ["str", "msg", "flow", "global"],
                 typeField: "#node-input-id_d2l_type"
             })
             $("#node-input-key_application_communication").typedInput({

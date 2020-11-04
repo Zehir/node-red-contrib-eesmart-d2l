@@ -123,7 +123,7 @@ module.exports = function (RED) {
             // Taille de la trame
             data.frameSize = buffer.readUIntLE(2, 2);
             // Identifiant du D2L
-            data.idD2L = buffer.readBigUInt64LE(4).toString();
+            data.idD2L = String(buffer.readBigUInt64LE(4)).padStart(12, '0')
             // Clef AES utilisé, toujours égale à 1
             data.encryptionMethod = buffer.readUIntLE(12, 1) & 0x7;
 
@@ -274,7 +274,7 @@ module.exports = function (RED) {
 
 
             // Check D2L id
-            if (headers.idD2L !== credentials.id_d2l.toString()) {
+            if (headers.idD2L !== credentials.id_d2l) {
                 node.send([
                     undefined,
                     {
