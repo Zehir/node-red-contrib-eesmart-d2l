@@ -1,7 +1,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('eesmart-d2l', {
-        category: 'function',
-        color: '#2ecc71',
+        category: 'parser',
+        color: '#DEBD5C',
         defaults: {
             name: {value: "eeSmart D2L"}
         },
@@ -30,6 +30,7 @@
         label: function () {
             return this.name || "eeSmart D2L";
         },
+        paletteLabel: 'eeSmart D2L',
         inputLabels: "TCP in",
         outputLabels: ["Data", "Error", "TCP out"],
         oneditprepare: function () {
