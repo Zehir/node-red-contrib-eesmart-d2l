@@ -1,0 +1,175 @@
+<script type="text/javascript">
+    RED.nodes.registerType('eesmart-d2l', {
+        category: 'function',
+        color: '#2ecc71',
+        defaults: {
+            name: {value: "eeSmart D2L"}
+        },
+        credentials: {
+            id_d2l: {
+                required: true,
+                type: "number"
+            },
+            key_application_communication: {
+                required: true,
+                type: "text",
+                /*validate: RED.validators.regex(/[0-9a-f]{32}/)*/
+            },
+            key_initialization_vector: {
+                required: true,
+                type: "text",
+                /*validate: RED.validators.regex(/[0-9a-f]{32}/)*/
+            },
+            id_d2l_type: {required: true, type: "text"},
+            key_application_communication_type: {required: true, type: "text"},
+            key_initialization_vector_type: {required: true, type: "text"},
+        },
+        inputs: 1,
+        outputs: 3,
+        icon: "font-awesome/fa-bolt",
+        label: function () {
+            return this.name || "eeSmart D2L";
+        },
+        inputLabels: "TCP in",
+        outputLabels: ["Data", "Error", "TCP out"],
+        oneditprepare: function () {
+            $("#node-input-id_d2l").typedInput({
+                type: "text",
+                types: ["num", "msg", "flow", "global"],
+                typeField: "#node-input-id_d2l_type"
+            })
+            $("#node-input-key_application_communication").typedInput({
+                type: "text",
+                types: ["str", "msg", "flow", "global"],
+                typeField: "#node-input-key_application_communication_type"
+            })
+            $("#node-input-key_initialization_vector").typedInput({
+                type: "text",
+                types: ["str", "msg", "flow", "global"],
+                typeField: "#node-input-key_initialization_vector_type"
+            })
+        },
+    });
+</script>
+
+<script type="text/html" data-template-name="eesmart-d2l">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-id_d2l"><i class="fa fa-id-badge"></i> ID D2L</label>
+        <input type="text" id="node-input-id_d2l">
+        <input type="hidden" id="node-input-id_d2l_type">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-key_application_communication"><i class="fa fa-lock"></i> App Key</label>
+        <input type="text" id="node-input-key_application_communication">
+        <input type="hidden" id="node-input-key_application_communication_type">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-key_initialization_vector"><i class="fa fa-lock"></i> IV Key</label>
+        <input type="text" id="node-input-key_initialization_vector">
+        <input type="hidden" id="node-input-key_initialization_vector_type">
+    </div>
+
+</script>
+
+<script type="text/html" data-help-name="eesmart-d2l">
+    <p>Converts the data sent by the D2L into readable data.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt>ID D2L <span class="property-type">numeric</span></dt>
+        <dd>The unique identifier of your D2L.</dd>
+        <dt>Key <span class="property-type">string</span></dt>
+        <dd>The Application communication key provided by eeSmart support.</p></dd>
+        <dt>IV <span class="property-type">string</span></dt>
+        <dd>The Initialization vector key provided by eeSmart support.</p></dd>
+        <p>
+            The keys contain only alphanumeric characters and are 32 character long.
+            You can ask them at support@eesmart.fr with providing your D2L ID.
+        </p>
+    </dl>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>topic <span class="property-type">string</span></dt>
+        <dd>d2l_update</dd>
+        <dt>payload <span class="property-type">object</span></dt>
+        <dd>Stream of Base64 String sent by the D2L.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Data
+            <p>Keep any extra data from the input.</p>
+            <dl class="message-properties">
+                <dt>topic <span class="property-type">string</span></dt>
+                <dd>d2l_data</dd>
+                <dt>payload <span class="property-type">object | string</span></dt>
+                <dd>The data sent by the Linky. Check the References to learn more about the values.
+                </dd>
+                <dt>payloadHeaders <span class="property-type">object</span></dt>
+                <dd>Advanced data about the communication with the D2L.</dd>
+            </dl>
+        </li>
+        <li>Error
+            <p>If any error occurred while processing the data, a message is sent to this output and nothing else.</p>
+            <dl class="message-properties">
+                <dt>topic <span class="property-type">string</span></dt>
+                <dd>error_message</dd>
+                <dt>payload <span class="property-type">string</span></dt>
+                <dd>User friendly readable error message.</dd>
+                <dt>error_code <span class="property-type">string</span></dt>
+                <dd>Error code.</dd>
+                <dt>error_debug_data <span class="property-type">string</span></dt>
+                <dd>The encrypted data sent by the D2L.</dd>
+            </dl>
+        </li>
+        <li>TCP Output
+            <p>Keep any extra data from the input.</p>
+            <dl class="message-properties">
+                <dt>topic <span class="property-type">string</span></dt>
+                <dd>d2l_time_update</dd>
+                <dt>payload <span class="property-type">object</span></dt>
+                <dd>A Base64 string to send to the D2L to update it's internal clock.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Quickstart</h3>
+    <ul>
+        <li>Create a TCP in node of type "Listen on" port 7845 or any available one.</li>
+        <li>Set the Output to a stream of Base64 String.</li>
+        <li>Set the Topic to d2l_update.</li>
+        <li>Connect this node to the TCP in input.</li>
+        <li>Create a TCP out node of type Reply to TCP.</li>
+        <li>Check the Decode Base64 message ? option.</li>
+        <li>Connect this node to the TCP out output.</li>
+        <li>Connect a debug node to the Data and Error outputs.</li>
+        <li>
+            Use the smartphone application to setup your D2L.
+            Use the local server with the Node Red IP and the port 7845 or any used in step 1.
+        </li>
+    </ul>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://www.enedis.fr/sites/default/files/Enedis-NOI-CPT_54E.pdf">Enedis documentation</a>
+            - full description of data <code>msg.payload</code> property
+        </li>
+        <li>
+            <a href="http://eesmart.fr/wp-content/uploads/eeSmart-D2L-Notice-dinstallation.pdf">D2L User manual</a>
+            - how to configure your D2L
+        </li>
+    </ul>
+
+</script>
+
+
+

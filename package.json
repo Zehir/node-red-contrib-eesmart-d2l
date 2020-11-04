@@ -1,0 +1,16 @@
+{
+  "name": "node-red-eesmart-d2l",
+  "version": "0.0.1",
+  "description": "",
+  "main": "eesmart-d2l.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "node-red" : {
+        "nodes": {
+            "eesmart-d2l": "eesmart-d2l.js"
+        }
+    }
+}
