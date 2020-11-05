@@ -36,5 +36,5 @@ To get your keys for local server send an email to [support@eesmart.fr](mailto:s
 - Read the documentation in Node Red
 
 ## References
-[Enedis documentation](https://www.enedis.fr/sites/default/files/Enedis-NOI-CPT_54E.pdf) - full description of data returned by the node
-[D2L User manual](http://eesmart.fr/wp-content/uploads/eeSmart-D2L-Notice-dinstallation.pdf) - how to configure your D2L
+- [Enedis documentation](https://www.enedis.fr/sites/default/files/Enedis-NOI-CPT_54E.pdf) - full description of data returned by the node
+- [D2L User manual](http://eesmart.fr/wp-content/uploads/eeSmart-D2L-Notice-dinstallation.pdf) - how to configure your D2L
