@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2020-11-06 ![Relative date](https://img.shields.io/date/1604690140?label=)
+### Added
+- New error code 0xA004 for unknown payload type.
+
 ## [0.1.0] - 2020-11-05 ![Relative date](https://img.shields.io/date/1604531360?label=)
 ### Changed
 - The node is now in parser category.
