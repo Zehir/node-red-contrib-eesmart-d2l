@@ -187,6 +187,10 @@ module.exports = function (RED) {
             return buffer;
         }
 
+        function getRequestPayloadRaw(headers, buffer) {
+            return buffer.subarray(38, 38 + headers.payloadSize).toString('utf8');
+        }
+
         function getRequestPayload(headers, buffer) {
             if (!headers.isRequest || headers.payloadSize === 0 || headers.payloadType !== TYPE_COMMANDE_V3_PUSH_JSON) {
                 return {};
@@ -198,7 +202,7 @@ module.exports = function (RED) {
             };
 
             try {
-                data.payload = buffer.subarray(38, 38 + headers.payloadSize).toString('utf8')
+                data.payload = getRequestPayloadRaw(headers, buffer)
             } catch (error) {
                 data.success = false
                 data.error_code = "0xB001"
@@ -364,6 +368,24 @@ module.exports = function (RED) {
                     sendData[2].payload = responsePayload.toString('base64')
 
                     break;
+
+                default:
+
+                    node.send([
+                        undefined,
+                        {
+                            topic: "error_message",
+                            error_code: '0xA004',
+                            payload: "Unknown Payload Type, got '" + headers.payloadType + "' and expect '" + TYPE_COMMANDE_V3_PUSH_JSON + "' or '" + TYPE_COMMANDE_V3_GET_HORLOGE + "'. Please open an issue on Github.",
+                            payload_size: headers.payloadSize,
+                            payload_data: getRequestPayloadRaw(headers, dataBuffer),
+                            error_debug_data: msg.payload
+                        },
+                        undefined
+                    ]);
+
+                    break;
+
             }
 
             node.send(sendData);
