@@ -261,10 +261,26 @@ module.exports = function (RED) {
                 return;
             }
 
-            let dataBuffer = Buffer.from(msg.payload, 'base64')
+            let dataBuffer
+            if (typeof msg.payload === "string") {
+                dataBuffer = Buffer.from(msg.payload, 'base64')
+            } else if (typeof msg.payload === "object" && Buffer.isBuffer(msg.payload)) {
+                dataBuffer = msg.payload
+            } else {
+                node.send([
+                    undefined,
+                    {
+                        topic: "error_message",
+                        error_code: "0xA005",
+                        payload: "Can't parse input data, it's should be Buffer or Base64 String.",
+                        error_debug_data: ""
+                    },
+                    undefined
+                ]);
+                return;
+            }
 
             let headers = getHeaders(dataBuffer, true)
-
 
             // Check D2L id
             if (headers.idD2L !== credentials.id_d2l) {

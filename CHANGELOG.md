@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Allow JSONata expressions as input
-
+### Changed
+- Allow payload of type buffer and base64
 
 ## [0.1.1] - 2020-11-06 ![Relative date](https://img.shields.io/date/1604690140?label=)
 ### Added
