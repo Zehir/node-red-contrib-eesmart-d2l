@@ -4,6 +4,9 @@ module.exports = function (RED) {
 
     function EESmartD2LNode(config) {
         RED.nodes.createNode(this, config);
+        this.format_tcp_data = config.format_tcp_data || "default";
+        this.format_tcp_output = config.format_tcp_output || "buffer";
+
         var node = this;
 
         node.sendErrorMessage = function (code, message, data = {}) {
@@ -227,7 +230,7 @@ module.exports = function (RED) {
             try {
                 data.payload = JSON.parse(data.payload)
                 // Convert horloge
-                data.payload._HORLOGE = clockToDate(parseInt(data.payload._HORLOGE))
+                data.payload._HORLOGE = clockToDate(parseInt(data.payload._HORLOGE, 10))
             } catch (error) {
                 data.success = false
                 data.error_code = "0xB002"
@@ -255,6 +258,122 @@ module.exports = function (RED) {
             });
 
             return cred;
+        }
+
+        function formatOutputData(data) {
+
+            switch (node.format_tcp_data) {
+                case "default":
+                    let _data = {
+                        info: {
+                            d2l_id: data._ID_D2L,
+                            d2l_firmware: data._DATE_FIRMWARE,
+                            serial_number: data.ADCO,
+                            frame_type: data._TYPE_TRAME
+                        },
+                        date: data._HORLOGE
+                    }
+
+                    switch (data._TYPE_TRAME) {
+                        case 'HISTORIQUE':
+                            _data.subscription = {
+                                tariff: data.OPTARIF,
+                                intensity: parseInt(data.ISOUSC, 10),
+                                intensity_max: parseInt(data.IMAX, 10)
+                            }
+
+                            if (data.DEMAIN !== undefined && data.DEMAIN.length > 0) {
+                                _data.info.tempo_couleur_demain = data.DEMAIN
+                            }
+
+                            if (data.PTEC !== undefined && data.PTEC.length > 0) {
+                                _data.info.periode_tarifaire = data.PTEC
+                            }
+
+                            _data.consumption = {}
+
+                            // Option Base
+                            if (data.BASE !== undefined && data.BASE.length > 0) {
+                                _data.consumption.base = parseInt(data.BASE, 10)
+                            }
+
+                            // Option Heures Creuses
+                            if (data.HCHC !== undefined && data.HCHC.length > 0) {
+                                _data.consumption.heures_creuses = parseInt(data.HCHC, 10)
+                            }
+                            if (data.HCHP !== undefined && data.HCHP.length > 0) {
+                                _data.consumption.heures_pleines = parseInt(data.HCHP, 10)
+                            }
+
+                            // Option EJP
+                            if (data.EJPHN !== undefined && data.EJPHN.length > 0) {
+                                _data.consumption.ejp_heures_normales = parseInt(data.EJPHN, 10)
+                            }
+                            if (data.EJPHPM !== undefined && data.EJPHPM.length > 0) {
+                                _data.consumption.ejp_heures_pointe_mobile = parseInt(data.EJPHPM, 10)
+                            }
+                            if (data.PEJP !== undefined && data.PEJP.length > 0) {
+                                _data.info.ejp_preavis = parseInt(data.PEJP, 10)
+                            }
+
+                            // Option Tempo
+                            if (data.BBRHCJB !== undefined && data.BBRHCJB.length > 0) {
+                                _data.consumption.tempo_heures_creuses_bleus = parseInt(data.BBRHCJB, 10)
+                            }
+                            if (data.BBRHPJB !== undefined && data.BBRHPJB.length > 0) {
+                                _data.consumption.tempo_heures_pleines_bleus = parseInt(data.BBRHPJB, 10)
+                            }
+                            if (data.BBRHCJW !== undefined && data.BBRHCJW.length > 0) {
+                                _data.consumption.tempo_heures_creuses_blancs = parseInt(data.BBRHCJW, 10)
+                            }
+                            if (data.BBRHPJW !== undefined && data.BBRHPJW.length > 0) {
+                                _data.consumption.tempo_heures_pleines_blancs = parseInt(data.BBRHPJW, 10)
+                            }
+                            if (data.BBRHCJR !== undefined && data.BBRHCJR.length > 0) {
+                                _data.consumption.tempo_heures_creuses_rouges = parseInt(data.BBRHCJR, 10)
+                            }
+                            if (data.BBRHPJR !== undefined && data.BBRHPJR.length > 0) {
+                                _data.consumption.tempo_heures_pleines_rouges = parseInt(data.BBRHPJR, 10)
+                            }
+
+                            _data.phases = {}
+
+                            if (data.IINST1 !== undefined && data.IINST1.length > 0) {
+                                _data.phases.instant_intensity_1 = parseInt(data.IINST1, 10)
+                            }
+
+
+                            if (data.IINST2 !== undefined && data.IINST2.length > 0) {
+                                _data.phases.instant_intensity_2 = parseInt(data.IINST2, 10)
+                            }
+
+
+                            if (data.IINST3 !== undefined && data.IINST3.length > 0) {
+                                _data.phases.instant_intensity_3 = parseInt(data.IINST3, 10)
+                            }
+
+                            let total = 0
+                            for (const key in _data.consumption) {
+                                total += _data.consumption[key]
+                            }
+                            _data.consumption.total = total
+
+
+                            break;
+                        case 'STANDARD':
+                            //TODO Support standard mode
+                            return {
+                                error_code: "0xC001",
+                                error_message: "Default mode is not supported for Linky's STANDARD, please use Raw data array."
+                            }
+                    }
+
+
+                    return _data;
+                case "raw_array":
+                default:
+                    return data
+            }
         }
 
         node.on('input', function (msg) {
@@ -341,7 +460,15 @@ module.exports = function (RED) {
                     responsePayload = generateResponse(credentials.id_d2l, headers.payloadType, responsePayload)
                     responsePayload = applyEncryption(responsePayload, ENCRYPTION_CIPHER, credentials)
 
-                    sendData[2].payload = responsePayload.toString('base64')
+                    switch (node.format_tcp_output) {
+                        case "base64":
+                            sendData[2].payload = responsePayload.toString('base64')
+                            break;
+                        case "buffer":
+                        default:
+                            sendData[2].payload = responsePayload
+                            break;
+                    }
 
                     break;
 
@@ -360,14 +487,24 @@ module.exports = function (RED) {
 
             }
 
+            // Format data
+            sendData[0].payload = formatOutputData(sendData[0].payload)
+            if (sendData[0].error_code) {
+                node.sendErrorMessage(sendData[0].error_code, sendData[0].error_message,)
+                return;
+            }
+
+            // Status message
+            let displayText = node.format_tcp_data === "default" ?
+                new Date(Date.now()).toLocaleTimeString() + " : " + sendData[0].payload.consumption.total + " Wh" :
+                "Updated at " + new Date(Date.now()).toLocaleTimeString()
             node.status({
                 fill: "green",
                 shape: "dot",
-                text: sendData[0].payload.BASE !== undefined && parseInt(sendData[0].payload.BASE) !== 0 ?
-                    new Date(Date.now()).toLocaleTimeString() + " : " + parseInt(sendData[0].payload.BASE) + " Wh" :
-                    "Updated at " + new Date(Date.now()).toLocaleTimeString()
+                text: displayText
             })
 
+            // Send data
             node.send(sendData);
         });
     }

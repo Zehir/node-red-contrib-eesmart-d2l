@@ -3,7 +3,9 @@
         category: 'parser',
         color: '#DEBD5C',
         defaults: {
-            name: {value: "eeSmart D2L"}
+            name: {value: "eeSmart D2L"},
+            format_tcp_data: {value: "default"},
+            format_tcp_output: {value: "buffer"}
         },
         credentials: {
             id_d2l: {
@@ -49,6 +51,15 @@
                 types: ["str", "jsonata", "msg", "flow", "global"],
                 typeField: "#node-input-key_initialization_vector_type"
             })
+
+            if ($("#node-input-format_tcp_output").val() === null) {
+                $("#node-input-format_tcp_output").val("base64")
+            }
+
+            if ($("#node-input-format_tcp_data").val() === null) {
+                $("#node-input-format_tcp_data").val("raw_array")
+            }
+
         },
     });
 </script>
@@ -77,6 +88,22 @@
         <input type="hidden" id="node-input-key_initialization_vector_type">
     </div>
 
+    <div class="form-row">
+        <label for="node-input-format_tcp_data"><i class="fa fa-file-text"></i> Data format</label>
+        <select id="node-input-format_tcp_data">
+            <option value="default">Default</option>
+            <option value="raw_array">Raw data array</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-format_tcp_output"><i class="fa fa-file-text"></i> TCP format</label>
+        <select id="node-input-format_tcp_output">
+            <option value="buffer" data-i18n="node-red:tcpin.output.buffer"></option>
+            <option value="base64" data-i18n="node-red:tcpin.output.base64"></option>
+        </select>
+    </div>
+
 </script>
 
 <script type="text/html" data-help-name="eesmart-d2l">
@@ -86,14 +113,26 @@
     <dl class="message-properties">
         <dt>ID D2L <span class="property-type">numeric</span></dt>
         <dd>The unique identifier of your D2L.</dd>
-        <dt>Key <span class="property-type">string</span></dt>
-        <dd>The Application communication key provided by eeSmart support.</p></dd>
-        <dt>IV <span class="property-type">string</span></dt>
-        <dd>The Initialization vector key provided by eeSmart support.</p></dd>
+        <dt>App Key <span class="property-type">string</span></dt>
+        <dd>The Application communication key provided by eeSmart support.</dd>
+        <dt>IV Key <span class="property-type">string</span></dt>
+        <dd>The Initialization vector key provided by eeSmart support.</dd>
         <p>
             The keys contain only alphanumeric characters and are 32 character long.
             You can ask them at support@eesmart.fr with providing your D2L ID.
         </p>
+        <dt>Data out <span class="property-type">string</span></dt>
+        <dd>
+            The format of the converted data
+            <dl>
+                <dt>Default</dt>
+                <dd>Usefull set of data.</dd>
+                <dt>Raw data array</dt>
+                <dd>The data sent by the D2L without any changes.</dd>
+            </dl>
+        </dd>
+        <dt>TCP out <span class="property-type">string</span></dt>
+        <dd>The format of the response for the D2L, Buffer or Base64 String.</dd>
     </dl>
 
     <h3>Inputs</h3>
@@ -101,7 +140,7 @@
         <dt>topic <span class="property-type">string</span></dt>
         <dd>d2l_update</dd>
         <dt>payload <span class="property-type">object</span></dt>
-        <dd>Stream of Base64 String sent by the D2L.</dd>
+        <dd>Buffer or Base64 String sent by the D2L.</dd>
     </dl>
 
     <h3>Outputs</h3>
@@ -137,7 +176,7 @@
                 <dt>topic <span class="property-type">string</span></dt>
                 <dd>d2l_time_update</dd>
                 <dt>payload <span class="property-type">object</span></dt>
-                <dd>A Base64 string to send to the D2L to update it's internal clock.</dd>
+                <dd>A Buffer or a Base64 string to send to the D2L to update it's internal clock.</dd>
             </dl>
         </li>
     </ol>
@@ -145,11 +184,10 @@
     <h3>Quickstart</h3>
     <ul>
         <li>Create a TCP in node of type "Listen on" port 7845 or any available one.</li>
-        <li>Set the Output to a stream of Base64 String.</li>
+        <li>Set the Output to a stream of Buffer.</li>
         <li>Set the Topic to d2l_update.</li>
         <li>Connect this node to the TCP in input.</li>
         <li>Create a TCP out node of type Reply to TCP.</li>
-        <li>Check the Decode Base64 message ? option.</li>
         <li>Connect this node to the TCP out output.</li>
         <li>Connect a debug node to the Data and Error outputs.</li>
         <li>
