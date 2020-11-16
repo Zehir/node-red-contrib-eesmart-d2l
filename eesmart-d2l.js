@@ -495,8 +495,8 @@ module.exports = function (RED) {
 
             // Format data
             sendData[0].payload = formatOutputData(sendData[0].payload)
-            if (sendData[0].error_code) {
-                node.sendErrorMessage(sendData[0].error_code, sendData[0].error_message,)
+            if (sendData[0].payload.error_code) {
+                node.sendErrorMessage(sendData[0].payload.error_code, sendData[0].payload.error_message)
                 return;
             }
 
