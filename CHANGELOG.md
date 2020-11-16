@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2020-11-16 ![Relative date](https://img.shields.io/date/1605543464?label=)
+### Fixed
+- Bad status message in Standard mode
+
 ## [0.2.0] - 2020-11-16 ![Relative date](https://img.shields.io/date/1605541033?label=)
 ### Added
 - Allow JSONata expressions as input
