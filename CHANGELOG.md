@@ -7,17 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2020-11-16 ![Relative date](https://img.shields.io/date/1605546807?label=)
+### Added
+- Error message if a part of the TCP frame is missing. 
+
 ## [0.2.1] - 2020-11-16 ![Relative date](https://img.shields.io/date/1605543464?label=)
 ### Fixed
-- Bad status message in Standard mode
+- Bad status message in Standard mode.
 
 ## [0.2.0] - 2020-11-16 ![Relative date](https://img.shields.io/date/1605541033?label=)
 ### Added
-- Allow JSONata expressions as input
-- Node status
-- Output data formatter
+- Allow JSONata expressions as input.
+- Node status.
+- Output data formatter.
 ### Changed
-- Allow payload of type buffer and base64
+- Allow payload of type buffer and base64.
 
 ## [0.1.1] - 2020-11-06 ![Relative date](https://img.shields.io/date/1604690140?label=)
 ### Added
