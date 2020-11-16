@@ -232,29 +232,18 @@ module.exports = function (RED) {
 
 
         function getCredentials(node, msg) {
-            // Why there is no easy way to get theses values, if someone got one please open an issue on github
             let cred = {};
-            const keys = ['id_d2l', 'key_application_communication', 'key_initialization_vector'];
-            keys.forEach((k, v) => {
-                switch (node.credentials[k + "_type"]) {
-                    case "msg":
-                        cred[k] = (node.credentials[k]).split('.').reduce((p, c) => p && p[c] || null, msg);
-                        break;
-                    case "flow" :
-                    case "global" :
-                        cred[k] = node.context()[node.credentials[k + "_type"]].get(node.credentials[k]);
-                        break;
-                    default:
-                        cred[k] = node.credentials[k];
-                        break;
-                }
+
+            ['id_d2l', 'key_application_communication', 'key_initialization_vector'].forEach((k) => {
+                cred[k] = RED.util.evaluateNodeProperty(node.credentials[k], node.credentials[k + "_type"], node, msg);
             });
+
             return cred;
         }
 
         node.on('input', function (msg) {
 
-            // Load credentials, why this is so funky ???
+            // Load credentials
             let credentials = getCredentials(node, msg)
 
             // Check topic
