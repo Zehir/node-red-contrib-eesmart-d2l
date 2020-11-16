@@ -420,6 +420,12 @@ module.exports = function (RED) {
             // Update headers again because some are encryped
             headers = getHeaders(dataBuffer)
 
+            // Check if frame is complete
+            if (headers.frameSize !== dataBuffer.length) {
+                node.sendErrorMessage("0xA006", "Can't read data, part of the data is missing. Try adding a join node between this node and the TCP in node to create a Buffer joining using an empty buffer with a timeout of 0.5 second.")
+                return;
+            }
+
             // Check if CRC is OK
             if (!checkCRC(dataBuffer)) {
                 node.sendErrorMessage("0xA003", "Can't read data, the checksum is invalid. Please check the Key and IV values")
