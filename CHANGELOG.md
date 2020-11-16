@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.3] - 2020-11-16 ![Relative date](https://img.shields.io/date/1605556772?label=)
+### Fixed
+- Default format error message
+
 ## [0.2.2] - 2020-11-16 ![Relative date](https://img.shields.io/date/1605546807?label=)
 ### Added
 - Error message if a part of the TCP frame is missing. 
