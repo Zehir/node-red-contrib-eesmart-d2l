@@ -25,11 +25,10 @@ To get your keys for local server send an email to [support@eesmart.fr](mailto:s
 
 ## Quickstart
 - Create a TCP in node of type "Listen on" port 7845.
-- Set the Output to a stream of Base64 String.
+- Set the Output to a stream of Buffer.
 - Set the Topic to d2l_update.
 - Connect this node to the TCP in input.
 - Create a TCP out node of type Reply to TCP.
-- Check the Decode Base64 message ? option.
 - Connect this node to the TCP out output.
 - Connect a debug node to the Data and Error outputs.
 - Use the smartphone application to setup your D2L. Use the local server with the Node Red IP and the port 7845 or any used in step 1.
