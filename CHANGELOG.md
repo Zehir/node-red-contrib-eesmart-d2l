@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Allow JSONata expressions as input
+- Node status
 ### Changed
 - Allow payload of type buffer and base64
 

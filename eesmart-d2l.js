@@ -6,6 +6,22 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         var node = this;
 
+        node.sendErrorMessage = function (code, message, data = {}) {
+
+            let msg = {
+                topic: "error_message",
+                error_code: code,
+                payload: message
+            }
+
+            this.send([
+                undefined,
+                Object.assign(msg, data),
+                undefined
+            ]);
+            this.status({fill: "red", shape: "ring", text: message})
+        }
+
         let TYPE_COMMANDE_V3_PUSH_JSON = 0x3
         let TYPE_COMMANDE_V3_GET_HORLOGE = 0x5
 
@@ -267,16 +283,7 @@ module.exports = function (RED) {
             } else if (typeof msg.payload === "object" && Buffer.isBuffer(msg.payload)) {
                 dataBuffer = msg.payload
             } else {
-                node.send([
-                    undefined,
-                    {
-                        topic: "error_message",
-                        error_code: "0xA005",
-                        payload: "Can't parse input data, it's should be Buffer or Base64 String.",
-                        error_debug_data: ""
-                    },
-                    undefined
-                ]);
+                node.sendErrorMessage("0xA005", "Can't parse input data, it's should be Buffer or Base64 String.")
                 return;
             }
 
@@ -284,16 +291,7 @@ module.exports = function (RED) {
 
             // Check D2L id
             if (headers.idD2L !== credentials.id_d2l) {
-                node.send([
-                    undefined,
-                    {
-                        topic: "error_message",
-                        error_code: "0xA002",
-                        payload: "D2L id mismatch got '" + headers.idD2L + "' and expect '" + credentials.id_d2l + "'.",
-                        error_debug_data: msg.payload
-                    },
-                    undefined
-                ]);
+                node.sendErrorMessage("0xA002", "D2L id mismatch, got '" + headers.idD2L + "' and expect '" + credentials.id_d2l + "'.")
                 return;
             }
 
@@ -305,31 +303,13 @@ module.exports = function (RED) {
 
             // Check if CRC is OK
             if (!checkCRC(dataBuffer)) {
-                node.send([
-                    undefined,
-                    {
-                        topic: "error_message",
-                        error_code: "0xA003",
-                        payload: "Can't read data, the checksum is invalid. Please check the Key and IV values",
-                        error_debug_data: msg.payload
-                    },
-                    undefined
-                ]);
+                node.sendErrorMessage("0xA003", "Can't read data, the checksum is invalid. Please check the Key and IV values")
                 return;
             }
 
             // Check if it's a request
             if (headers.isRequest === false) {
-                node.send([
-                    undefined,
-                    {
-                        topic: "error_message",
-                        error_code: "0xFFFF",
-                        payload: "Can't handle response messages. Please report this on github if it's was sent by the D2L.",
-                        error_debug_data: msg.payload
-                    },
-                    undefined
-                ]);
+                node.sendErrorMessage("0xFFFF", "Can't handle response messages. Please report this on github if it's was sent by the D2L.")
                 return;
             }
 
@@ -340,16 +320,7 @@ module.exports = function (RED) {
 
                     let requestPayload = getRequestPayload(headers, dataBuffer)
                     if (requestPayload.success === false) {
-                        node.send([
-                            undefined,
-                            {
-                                topic: "error_message",
-                                error_code: requestPayload.error_code,
-                                payload: requestPayload.error_message,
-                                error_debug_data: msg.payload
-                            },
-                            undefined
-                        ]);
+                        node.sendErrorMessage(requestPayload.error_code, requestPayload.error_message, {error_debug_data: msg.payload})
                         return;
                     }
 
@@ -375,23 +346,27 @@ module.exports = function (RED) {
                     break;
 
                 default:
-
-                    node.send([
-                        undefined,
+                    node.sendErrorMessage(
+                        '0xA004',
+                        "Unknown Payload Type, got '" + headers.payloadType + "' and expect '" + TYPE_COMMANDE_V3_PUSH_JSON + "' or '" + TYPE_COMMANDE_V3_GET_HORLOGE + "'. Please open an issue on Github.",
                         {
-                            topic: "error_message",
-                            error_code: '0xA004',
-                            payload: "Unknown Payload Type, got '" + headers.payloadType + "' and expect '" + TYPE_COMMANDE_V3_PUSH_JSON + "' or '" + TYPE_COMMANDE_V3_GET_HORLOGE + "'. Please open an issue on Github.",
                             payload_size: headers.payloadSize,
                             payload_data: getRequestPayloadRaw(headers, dataBuffer),
                             error_debug_data: msg.payload
-                        },
-                        undefined
-                    ]);
+                        }
+                    )
 
-                    break;
+                    return;
 
             }
+
+            node.status({
+                fill: "green",
+                shape: "dot",
+                text: sendData[0].payload.BASE !== undefined && parseInt(sendData[0].payload.BASE) !== 0 ?
+                    new Date(Date.now()).toLocaleTimeString() + " : " + parseInt(sendData[0].payload.BASE) + " Wh" :
+                    "Updated at " + new Date(Date.now()).toLocaleTimeString()
+            })
 
             node.send(sendData);
         });
