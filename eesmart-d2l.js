@@ -495,7 +495,7 @@ module.exports = function (RED) {
             }
 
             // Status message
-            let displayText = node.format_tcp_data === "default" ?
+            let displayText = node.format_tcp_data === "default" && sendData[0].payload.info.frame_type === "HISTORIQUE" ?
                 new Date(Date.now()).toLocaleTimeString() + " : " + sendData[0].payload.consumption.total + " Wh" :
                 "Updated at " + new Date(Date.now()).toLocaleTimeString()
             node.status({
