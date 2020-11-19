@@ -210,9 +210,13 @@ module.exports = function (RED) {
             return buffer.subarray(38, 38 + headers.payloadSize).toString('utf8');
         }
 
-        function getRequestPayload(headers, buffer) {
-            if (!headers.isRequest || headers.payloadSize === 0 || headers.payloadType !== TYPE_COMMANDE_V3_PUSH_JSON) {
-                return {};
+        function getRequestPayloadJSON(headers, buffer) {
+            if (headers.payloadSize === 0) {
+                return {
+                    success: false,
+                    error_code: "0xB003",
+                    error_message: "Can't read payload, the payload size is 0."
+                };
             }
 
             let data = {
@@ -443,7 +447,7 @@ module.exports = function (RED) {
             switch (headers.payloadType) {
                 case TYPE_COMMANDE_V3_PUSH_JSON:
 
-                    let requestPayload = getRequestPayload(headers, dataBuffer)
+                    let requestPayload = getRequestPayloadJSON(headers, dataBuffer)
                     if (requestPayload.success === false) {
                         node.sendErrorMessage(requestPayload.error_code, requestPayload.error_message, {error_debug_data: msg.payload})
                         return;
@@ -451,8 +455,16 @@ module.exports = function (RED) {
 
                     sendData[0] = msg
                     sendData[0].topic = 'd2l_data'
-                    sendData[0].payload = requestPayload.payload
                     sendData[0].payloadHeaders = headers
+
+                    // Format data
+                    sendData[0].payload = formatOutputData(requestPayload.payload)
+                    if (sendData[0].payload.error_code) {
+                        node.sendErrorMessage(sendData[0].payload.error_code, sendData[0].payload.error_message)
+                        return;
+                    }
+
+
                 // Dans tous les cas il faut renvoyer l'horloge alors on ne 'break' pas
 
                 case TYPE_COMMANDE_V3_GET_HORLOGE:
@@ -493,22 +505,27 @@ module.exports = function (RED) {
 
             }
 
-            // Format data
-            sendData[0].payload = formatOutputData(sendData[0].payload)
-            if (sendData[0].payload.error_code) {
-                node.sendErrorMessage(sendData[0].payload.error_code, sendData[0].payload.error_message)
-                return;
-            }
-
             // Status message
-            let displayText = node.format_tcp_data === "default" && sendData[0].payload.info.frame_type === "HISTORIQUE" ?
-                new Date(Date.now()).toLocaleTimeString() + " : " + sendData[0].payload.consumption.total + " Wh" :
-                "Updated at " + new Date(Date.now()).toLocaleTimeString()
-            node.status({
-                fill: "green",
-                shape: "dot",
-                text: displayText
-            })
+            switch (headers.payloadType) {
+                case TYPE_COMMANDE_V3_PUSH_JSON:
+                    node.status({
+                        fill: "green",
+                        shape: "dot",
+                        text: node.format_tcp_data === "default" && sendData[0].payload.info.frame_type === "HISTORIQUE" ?
+                            new Date(Date.now()).toLocaleTimeString() + " : " + sendData[0].payload.consumption.total + " Wh" :
+                            "Updated at " + new Date(Date.now()).toLocaleTimeString()
+                    })
+                    break;
+
+                case TYPE_COMMANDE_V3_GET_HORLOGE:
+                    node.status({
+                        fill: "blue",
+                        shape: "dot",
+                        text: new Date(Date.now()).toLocaleTimeString() + " : Responded to a clock request"
+                    })
+                    break;
+
+            }
 
             // Send data
             node.send(sendData);
