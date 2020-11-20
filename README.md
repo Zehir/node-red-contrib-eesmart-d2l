@@ -5,8 +5,9 @@
 [![npm](https://img.shields.io/npm/v/node-red-contrib-eesmart-d2l)](https://www.npmjs.com/package/node-red-contrib-eesmart-d2l)
 [![GitHub issues](https://img.shields.io/github/issues/Zehir/node-red-contrib-eesmart-d2l)](https://github.com/Zehir/node-red-contrib-eesmart-d2l/issues)
 [![Liberapay giving](https://img.shields.io/liberapay/gives/Zehir)](https://liberapay.com/Zehir)
+[![Discord](https://img.shields.io/discord/779386253912047647?label=discord)](https://discord.gg/qTd363NKeu)
 
-Server node for eeSmart D2L Linky
+Server node for eeSmart D2L Linky.
 
 Converts the data sent by the D2L into readable data.
 
@@ -32,8 +33,9 @@ To get your keys for local server send an email to [support@eesmart.fr](mailto:s
 - Connect this node to the TCP out output.
 - Connect a debug node to the Data and Error outputs.
 - Use the smartphone application to setup your D2L. Use the local server with the Node Red IP and the port 7845 or any used in step 1.
-- Read the documentation in Node Red
+- Read the documentation in Node Red.
 
 ## References
-- [Enedis documentation](https://www.enedis.fr/sites/default/files/Enedis-NOI-CPT_54E.pdf) - full description of data returned by the node
-- [D2L User manual](http://eesmart.fr/wp-content/uploads/eeSmart-D2L-Notice-dinstallation.pdf) - how to configure your D2L
+- [Enedis documentation](https://www.enedis.fr/sites/default/files/Enedis-NOI-CPT_54E.pdf) - full description of data returned by the node.
+- [D2L User manual](http://eesmart.fr/wp-content/uploads/eeSmart-D2L-Notice-dinstallation.pdf) - how to configure your D2L.
+- [Discord](https://discord.gg/qTd363NKeu) - you can join us on Discord.
