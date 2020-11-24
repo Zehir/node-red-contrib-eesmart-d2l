@@ -22,7 +22,7 @@ module.exports = function (RED) {
                 Object.assign(msg, data),
                 undefined
             ]);
-            this.status({fill: "red", shape: "ring", text: message})
+            this.status({fill: "red", shape: "ring", text: code & ": " & message})
         }
 
         let TYPE_COMMANDE_V3_PUSH_JSON = 0x3
