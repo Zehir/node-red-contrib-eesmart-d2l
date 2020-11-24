@@ -490,6 +490,18 @@ module.exports = function (RED) {
 
                     break;
 
+                case 1:
+                    node.sendErrorMessage(
+                        '0xA007',
+                        "The D2L requested a firmware update but eeSmart didn’t provide me the documentation to handle this. Please see https://github.com/Zehir/node-red-contrib-eesmart-d2l/issues/1",
+                        {
+                            payload_size: headers.payloadSize,
+                            payload_data: getRequestPayloadRaw(headers, dataBuffer),
+                            error_debug_data: msg.payload
+                        }
+                    )
+                    return;
+
                 default:
                     node.sendErrorMessage(
                         '0xA004',
