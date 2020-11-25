@@ -526,8 +526,8 @@ module.exports = function (RED) {
                         fill: "green",
                         shape: "dot",
                         text: node.format_tcp_data === "default" && sendData[0].payload.info.frame_type === "HISTORIQUE" ?
-                            new Date(Date.now()).toLocaleTimeString() + " : " + sendData[0].payload.consumption.total + " Wh" :
-                            "Updated at " + new Date(Date.now()).toLocaleTimeString()
+                            new Date(Date.now()).toLocaleTimeString("fr-FR") + " : " + sendData[0].payload.consumption.total + " Wh." :
+                            "MàJ à " + new Date(Date.now()).toLocaleTimeString("fr-FR")
                     })
                     break;
 
@@ -535,7 +535,7 @@ module.exports = function (RED) {
                     node.status({
                         fill: "blue",
                         shape: "dot",
-                        text: new Date(Date.now()).toLocaleTimeString() + " : Responded to a clock request"
+                        text: new Date(Date.now()).toLocaleTimeString("fr-FR") + " : Répondu à une demande d'horloge."
                     })
                     break;
 
