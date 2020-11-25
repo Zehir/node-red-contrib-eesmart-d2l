@@ -7,6 +7,10 @@ et ce projet adhère au [Versionnage Sémantique](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2020-11-25 ![Relative date](https://img.shields.io/date/1606309301?label=)
+### Changement
+- Traduction en francais.
+
 ## [0.2.5] - 2020-11-24 ![Relative date](https://img.shields.io/date/1606242883?label=)
 ### Ajout
 - Message d'erreur pour la demande de mise à jour du micrologiciel.
