@@ -24,7 +24,7 @@ Pour récupérer vos clés pour le serveur local il faut envoyer un mail à [sup
 - L'identifiant unique de votre D2L (Un nombre écrit en dessous du QR Code)
 - Votre preuve d'achat (optionnel ?)
 
-[Mail Template](mailto:support@eesmart.fr?subject=Demande%20des%20cl%C3%A9s%20pour%20la%20configuration%20d'un%20serveur%20local&body=Bonjour%2CJ'aimerais%20recevoir%20mes%20cl%C3%A9s%20pour%20configurer%20un%20serveur%20local%20pour%20mon%20D2L.Sont%20identifiant%20unique%20est%20%3A%20XXXXXXXXXXXXJe%20l'ai%20achet%C3%A9%20sur%20XXXXXXXXXXX%2C%20vous%20trouverez%20ci-joint%20la%20facture.Cordialement%2C%20XXXXX)
+[Modèle de mail](mailto:support@eesmart.fr?subject=Demande%20des%20cl%C3%A9s%20pour%20la%20configuration%20d'un%20serveur%20local&body=Bonjour%2CJ'aimerais%20recevoir%20mes%20cl%C3%A9s%20pour%20configurer%20un%20serveur%20local%20pour%20mon%20D2L.Sont%20identifiant%20unique%20est%20%3A%20XXXXXXXXXXXXJe%20l'ai%20achet%C3%A9%20sur%20XXXXXXXXXXX%2C%20vous%20trouverez%20ci-joint%20la%20facture.Cordialement%2C%20XXXXX)
 
 ## Installation
 Vous pouvez installer ce [noeud](https://flows.nodered.org/node/node-red-contrib-eesmart-d2l) depuis l'option `Manage Palette` de Node-Red et rechercher `node-red-contrib-eesmart-d2l`. 
