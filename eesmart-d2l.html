@@ -34,7 +34,7 @@
         },
         paletteLabel: 'eeSmart D2L',
         inputLabels: "TCP in",
-        outputLabels: ["Data", "Error", "TCP out"],
+        outputLabels: ["Données", "Erreurs", "Sortie TCP"],
         oneditprepare: function () {
             $("#node-input-id_d2l").typedInput({
                 type: "text",
@@ -66,8 +66,8 @@
 
 <script type="text/html" data-template-name="eesmart-d2l">
     <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Nom</label>
+        <input type="text" id="node-input-name" placeholder="Nom">
     </div>
 
     <div class="form-row">
@@ -77,27 +77,27 @@
     </div>
 
     <div class="form-row">
-        <label for="node-input-key_application_communication"><i class="fa fa-lock"></i> App Key</label>
+        <label for="node-input-key_application_communication"><i class="fa fa-lock"></i> Clé Applicative</label>
         <input type="text" id="node-input-key_application_communication">
         <input type="hidden" id="node-input-key_application_communication_type">
     </div>
 
     <div class="form-row">
-        <label for="node-input-key_initialization_vector"><i class="fa fa-lock"></i> IV Key</label>
+        <label for="node-input-key_initialization_vector"><i class="fa fa-lock"></i> Clé IV</label>
         <input type="text" id="node-input-key_initialization_vector">
         <input type="hidden" id="node-input-key_initialization_vector_type">
     </div>
 
     <div class="form-row">
-        <label for="node-input-format_tcp_data"><i class="fa fa-file-text"></i> Data format</label>
+        <label for="node-input-format_tcp_data"><i class="fa fa-file-text"></i> Format données</label>
         <select id="node-input-format_tcp_data">
-            <option value="default">Default</option>
-            <option value="raw_array">Raw data array</option>
+            <option value="default">Défaut</option>
+            <option value="raw_array">Tableau de données brutes</option>
         </select>
     </div>
 
     <div class="form-row">
-        <label for="node-input-format_tcp_output"><i class="fa fa-file-text"></i> TCP format</label>
+        <label for="node-input-format_tcp_output"><i class="fa fa-file-text"></i> Format tcp</label>
         <select id="node-input-format_tcp_output">
             <option value="buffer" data-i18n="node-red:tcpin.output.buffer"></option>
             <option value="base64" data-i18n="node-red:tcpin.output.base64"></option>
@@ -107,104 +107,118 @@
 </script>
 
 <script type="text/html" data-help-name="eesmart-d2l">
-    <p>Converts the data sent by the D2L into readable data.</p>
+    <p>Noeud pour traduire les données envoyées par le D2L d'eeSmart Linky.</p>
 
-    <h3>Properties</h3>
+    <h3>Propriétés</h3>
     <dl class="message-properties">
-        <dt>ID D2L <span class="property-type">numeric</span></dt>
-        <dd>The unique identifier of your D2L.</dd>
-        <dt>App Key <span class="property-type">string</span></dt>
-        <dd>The Application communication key provided by eeSmart support.</dd>
-        <dt>IV Key <span class="property-type">string</span></dt>
-        <dd>The Initialization vector key provided by eeSmart support.</dd>
+        <dt>ID D2L <span class="property-type">string</span></dt>
+        <dd>Le numéro unique de votre D2L.</dd>
+        <dt>Clé Applicative <span class="property-type">string</span></dt>
+        <dd>La clé communication applicative (hex) fournie par le support eeSmart.</dd>
+        <dt>Clé IV <span class="property-type">string</span></dt>
+        <dd>La clé IV (hex) fournie par le support eeSmart.</dd>
         <p>
-            The keys contain only alphanumeric characters and are 32 character long.
-            You can ask them at support@eesmart.fr with providing your D2L ID.
+            Les clés ne contiennent que des caractères alphanumériques et ont une longueur de 32 caractères.
+            Vous pouvez les demander à support@eesmart.fr en fournissant le numéro unique du D2L.
         </p>
-        <dt>Data out <span class="property-type">string</span></dt>
+        <dt>Format données <span class="property-type">string</span></dt>
         <dd>
-            The format of the converted data
+            Le format de sortie des données
             <dl>
-                <dt>Default</dt>
-                <dd>Usefull set of data.</dd>
-                <dt>Raw data array</dt>
-                <dd>The data sent by the D2L without any changes.</dd>
+                <dt>Défaut</dt>
+                <dd>Ensemble de données utiles (incompatible avec le TIC en mode Standard</dd>
+                <dt>Tableau de données brutes</dt>
+                <dd>Les données envoyées par le D2L sans aucune modification.</dd>
             </dl>
         </dd>
         <dt>TCP out <span class="property-type">string</span></dt>
-        <dd>The format of the response for the D2L, Buffer or Base64 String.</dd>
+        <dd>Le format de la réponse pour le D2L, Buffer or Base64.</dd>
     </dl>
 
-    <h3>Inputs</h3>
+    <h3>Entrée</h3>
     <dl class="message-properties">
         <dt>topic <span class="property-type">string</span></dt>
         <dd>d2l_update</dd>
         <dt>payload <span class="property-type">object</span></dt>
-        <dd>Buffer or Base64 String sent by the D2L.</dd>
+        <dd>Buffer ou Base64 envoyé par le D2L.</dd>
     </dl>
 
-    <h3>Outputs</h3>
+    <h3>Sorties</h3>
     <ol class="node-ports">
-        <li>Data
-            <p>Keep any extra data from the input.</p>
+        <li>Données
+            <p>Garde toutes les données supplémentaires de l'entrée.</p>
             <dl class="message-properties">
                 <dt>topic <span class="property-type">string</span></dt>
                 <dd>d2l_data</dd>
                 <dt>payload <span class="property-type">object | string</span></dt>
-                <dd>The data sent by the Linky. Check the References to learn more about the values.
+                <dd>Les données envoyées par le Linky. Voir les références pour plus d'informations sur les valeurs.
                 </dd>
                 <dt>payloadHeaders <span class="property-type">object</span></dt>
-                <dd>Advanced data about the communication with the D2L.</dd>
+                <dd>Donnes avancées concernant la communication avec le D2L.</dd>
             </dl>
         </li>
-        <li>Error
-            <p>If any error occurred while processing the data, a message is sent to this output and nothing else.</p>
+        <li>Erreurs
+            <p>Si une erreur s'est produite lors du traitement des données, un message est envoyé à cette sortie et rien
+                sinon.</p>
             <dl class="message-properties">
                 <dt>topic <span class="property-type">string</span></dt>
                 <dd>error_message</dd>
                 <dt>payload <span class="property-type">string</span></dt>
-                <dd>User friendly readable error message.</dd>
+                <dd>Message d'erreur lisible et convivial.</dd>
                 <dt>error_code <span class="property-type">string</span></dt>
-                <dd>Error code.</dd>
+                <dd>Code d'erreur.</dd>
                 <dt>error_debug_data <span class="property-type">string</span></dt>
-                <dd>The encrypted data sent by the D2L.</dd>
+                <dd>Les données cryptées envoyées par le D2L.</dd>
             </dl>
         </li>
-        <li>TCP Output
-            <p>Keep any extra data from the input.</p>
+        <li>Sortie TCP
+            <p>Garde toutes les données supplémentaires de l'entrée.</p>
             <dl class="message-properties">
                 <dt>topic <span class="property-type">string</span></dt>
                 <dd>d2l_time_update</dd>
                 <dt>payload <span class="property-type">object</span></dt>
-                <dd>A Buffer or a Base64 string to send to the D2L to update it's internal clock.</dd>
+                <dd>
+                    Un Buffer ou une chaine de caractères en Base64 à envoyer au D2L pour acquitter la bonne réception
+                    des données et lui donner l'heure actuelle.
+                    La réponse doit être envoyée dans la même connexion que les données reçues par le D2L.
+                    Attention il coupe la communication s’il n’a pas eu de réponse en 3 secondes.
+                </dd>
             </dl>
         </li>
     </ol>
 
-    <h3>Quickstart</h3>
+    <h3>Démarrage rapide</h3>
     <ul>
-        <li>Create a TCP in node of type "Listen on" port 7845 or any available one.</li>
-        <li>Set the Output to a stream of Buffer.</li>
-        <li>Set the Topic to d2l_update.</li>
-        <li>Connect this node to the TCP in input.</li>
-        <li>Create a TCP out node of type Reply to TCP.</li>
-        <li>Connect this node to the TCP out output.</li>
-        <li>Connect a debug node to the Data and Error outputs.</li>
+        <li>Créer un noeud "TCP in" de type "Listen on" port 7845.</li>
+        <li>Définir la sortie sur "Stream of Buffer".</li>
+        <li>Définit le topic à "d2l_update".</li>
+        <li>Ajouter un noeud "eeSmart D2L".</li>
+        <li>Connecter la sortie du noeud "TCP in" à l'entrée du noeud "eeSmart D2L".</li>
+        <li>Créer un noeud "TCP out" de type "Reply to TCP".</li>
+        <li>Connecter la sortie "TCP out" du noeud "eeSmart D2L" au noeud "TCP out".</li>
+        <li>Connecter un noeud de debug aux sorties Données et Erreurs du noeud "eeSmart D2L".</li>
         <li>
-            Use the smartphone application to setup your D2L.
-            Use the local server with the Node Red IP and the port 7845 or any used in step 1.
+            Utiliser l'application pour smartphone pour configurer votre D2L.
+            Utiliser le serveur local avec l'adresse IP de votre serveur Node-Red et le port définit dans la première
+            étape.
         </li>
+        <li>Lire la documentation du plugin incluse dans Node-Red.</li>
     </ul>
 
-    <h3>References</h3>
+    <h3>Références</h3>
     <ul>
         <li>
-            <a href="https://www.enedis.fr/sites/default/files/Enedis-NOI-CPT_54E.pdf">Enedis documentation</a>
-            - full description of data <code>msg.payload</code> property
+            <a href="https://www.enedis.fr/sites/default/files/Enedis-NOI-CPT_54E.pdf">Documentation Enedis</a>
+            - description complète des données envoyés par le Linky via le D2L.
         </li>
         <li>
-            <a href="http://eesmart.fr/wp-content/uploads/eeSmart-D2L-Notice-dinstallation.pdf">D2L User manual</a>
-            - how to configure your D2L
+            <a href="http://eesmart.fr/wp-content/uploads/eeSmart-D2L-Notice-dinstallation.pdf">Notice d'installation
+                D2L</a>
+            - comment configurer votre D2L.
+        </li>
+        <li>
+            <a href="https://discord.gg/qTd363NKeu">Discord</a>
+            - - vous pouvez nous rejoindre sur discord.
         </li>
     </ul>
 

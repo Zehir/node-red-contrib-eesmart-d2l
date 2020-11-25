@@ -215,7 +215,7 @@ module.exports = function (RED) {
                 return {
                     success: false,
                     error_code: "0xB003",
-                    error_message: "Can't read payload, the payload size is 0."
+                    error_message: "Impossible de lire la charge utile, sa taille est de 0."
                 };
             }
 
@@ -229,7 +229,7 @@ module.exports = function (RED) {
             } catch (error) {
                 data.success = false
                 data.error_code = "0xB001"
-                data.error_message = "Can't read payload"
+                data.error_message = "Impossible de lire la charge utile."
             }
             try {
                 data.payload = JSON.parse(data.payload)
@@ -238,7 +238,7 @@ module.exports = function (RED) {
             } catch (error) {
                 data.success = false
                 data.error_code = "0xB002"
-                data.error_message = "Can't decode JSON payload"
+                data.error_message = "Impossible de décoder le format JSON."
             }
 
             return data;
@@ -368,7 +368,7 @@ module.exports = function (RED) {
                             //TODO Support standard mode
                             return {
                                 error_code: "0xC001",
-                                error_message: "Default mode is not supported for Linky's STANDARD, please use Raw data array."
+                                error_message: "Le mode par défaut n'est pas supporté pour la TIC STANDARD, veuillez utiliser le mode 'Raw data array'."
                             }
                     }
 
@@ -392,7 +392,7 @@ module.exports = function (RED) {
                     {
                         topic: "error_message",
                         error_code: "0xA001",
-                        payload: "Can't handle the messages with topic '" + msg.topic + "'.",
+                        payload: "Impossible de traiter les messages avec le topic '" + msg.topic + "'.",
                         error_debug_data: ""
                     },
                     undefined
@@ -406,7 +406,7 @@ module.exports = function (RED) {
             } else if (typeof msg.payload === "object" && Buffer.isBuffer(msg.payload)) {
                 dataBuffer = msg.payload
             } else {
-                node.sendErrorMessage("0xA005", "Can't parse input data, it's should be Buffer or Base64 String.")
+                node.sendErrorMessage("0xA005", "Impossible de lire la charge utile, il doit être au format 'Buffer' ou 'Base64 String'.")
                 return;
             }
 
@@ -414,7 +414,7 @@ module.exports = function (RED) {
 
             // Check D2L id
             if (headers.idD2L !== credentials.id_d2l) {
-                node.sendErrorMessage("0xA002", "D2L id mismatch, got '" + headers.idD2L + "' and expect '" + credentials.id_d2l + "'.")
+                node.sendErrorMessage("0xA002", "L'ID du D2L ne correspond pas, reçu '" + headers.idD2L + "' and attendu '" + credentials.id_d2l + "'.")
                 return;
             }
 
@@ -426,19 +426,21 @@ module.exports = function (RED) {
 
             // Check if frame is complete
             if (headers.frameSize !== dataBuffer.length) {
-                node.sendErrorMessage("0xA006", "Can't read data, part of the data is missing. Try adding a join node between this node and the TCP in node to create a Buffer joining using an empty buffer with a timeout of 0.5 second.")
+                node.sendErrorMessage("0xA006", "Impossible de lire les données, une partie des données est manquante. " +
+                    "Essayez d'ajouter un noeud 'join' entre ce noeud et le noeud 'tcp in' pour créer un " +
+                    "'Buffer joining using an empty buffer with a timeout of 0.5 second'.")
                 return;
             }
 
             // Check if CRC is OK
             if (!checkCRC(dataBuffer)) {
-                node.sendErrorMessage("0xA003", "Can't read data, the checksum is invalid. Please check the Key and IV values")
+                node.sendErrorMessage("0xA003", "Impossible de lire les données, la somme de contrôle est invalide. Veuillez vérifier les clés.")
                 return;
             }
 
             // Check if it's a request
             if (headers.isRequest === false) {
-                node.sendErrorMessage("0xFFFF", "Can't handle response messages. Please report this on github if it's was sent by the D2L.")
+                node.sendErrorMessage("0xFFFF", "Impossible de traiter les messages de type réponse. Merci d'ouvrir une issue sur GitHub si ce message as été envoyé par le D2L.")
                 return;
             }
 
@@ -493,7 +495,7 @@ module.exports = function (RED) {
                 case 1:
                     node.sendErrorMessage(
                         '0xA007',
-                        "The D2L requested a firmware update but eeSmart didn’t provide me the documentation to handle this. Please see https://github.com/Zehir/node-red-contrib-eesmart-d2l/issues/1",
+                        "Le D2L fait une demande de mise à jour logicielle. eeSmart ne nous as pas donné la documentation pour traiter ces demandes. Voir https://github.com/Zehir/node-red-contrib-eesmart-d2l/issues/1",
                         {
                             payload_size: headers.payloadSize,
                             payload_data: getRequestPayloadRaw(headers, dataBuffer),
@@ -505,7 +507,7 @@ module.exports = function (RED) {
                 default:
                     node.sendErrorMessage(
                         '0xA004',
-                        "Unknown Payload Type, got '" + headers.payloadType + "' and expect '" + TYPE_COMMANDE_V3_PUSH_JSON + "' or '" + TYPE_COMMANDE_V3_GET_HORLOGE + "'. Please open an issue on Github.",
+                        "Type de charge utile inconnue, reçu '" + headers.payloadType + "' et attend '" + TYPE_COMMANDE_V3_PUSH_JSON + "' ou '" + TYPE_COMMANDE_V3_GET_HORLOGE + "'. Merci d'ouvrir une issue sur GitHub.",
                         {
                             payload_size: headers.payloadSize,
                             payload_data: getRequestPayloadRaw(headers, dataBuffer),
@@ -524,8 +526,8 @@ module.exports = function (RED) {
                         fill: "green",
                         shape: "dot",
                         text: node.format_tcp_data === "default" && sendData[0].payload.info.frame_type === "HISTORIQUE" ?
-                            new Date(Date.now()).toLocaleTimeString() + " : " + sendData[0].payload.consumption.total + " Wh" :
-                            "Updated at " + new Date(Date.now()).toLocaleTimeString()
+                            new Date(Date.now()).toLocaleTimeString("fr-FR") + " : " + sendData[0].payload.consumption.total + " Wh." :
+                            "MàJ à " + new Date(Date.now()).toLocaleTimeString("fr-FR")
                     })
                     break;
 
@@ -533,7 +535,7 @@ module.exports = function (RED) {
                     node.status({
                         fill: "blue",
                         shape: "dot",
-                        text: new Date(Date.now()).toLocaleTimeString() + " : Responded to a clock request"
+                        text: new Date(Date.now()).toLocaleTimeString("fr-FR") + " : Répondu à une demande d'horloge."
                     })
                     break;
 

@@ -1,59 +1,62 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+Toutes les modifications notables apportées à ce projet seront documentées dans ce fichier.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+Le format est basé sur [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+et ce projet adhère au [Versionnage Sémantique](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.0] - 2020-11-25 ![Relative date](https://img.shields.io/date/1606309301?label=)
+### Changement
+- Traduction en francais.
+
 ## [0.2.5] - 2020-11-24 ![Relative date](https://img.shields.io/date/1606242883?label=)
-### Added
-- Error message for firmware update request.
-### Changed
-- Add error code to the status message.
+### Ajout
+- Message d'erreur pour la demande de mise à jour du micrologiciel.
+### Changement
+- Ajout du code d'erreur au message d'état.
 
 ## [0.2.4] - 2020-11-19 ![Relative date](https://img.shields.io/date/1605802829?label=)
-### Fixed
-- Format data error with GET_HORLOGE requests #5.
+### Correction
+- Message d'erreur pour les requetes de type GET_HORLOGE [#5](https://github.com/Zehir/node-red-contrib-eesmart-d2l/issues/5).
 
 ## [0.2.3] - 2020-11-16 ![Relative date](https://img.shields.io/date/1605556772?label=)
-### Fixed
-- Default format error message.
+### Correction
+- Message d'erreur de format par défaut..
 
 ## [0.2.2] - 2020-11-16 ![Relative date](https://img.shields.io/date/1605546807?label=)
-### Added
-- Error message if a part of the TCP frame is missing. 
+### Ajout
+- Message d'erreur si une partie de la trame TCP est manquante. 
 
 ## [0.2.1] - 2020-11-16 ![Relative date](https://img.shields.io/date/1605543464?label=)
-### Fixed
-- Bad status message in Standard mode.
+### Correction
+- Mauvais message de status dans le mode TIC Standard.
 
 ## [0.2.0] - 2020-11-16 ![Relative date](https://img.shields.io/date/1605541033?label=)
-### Added
-- Allow JSONata expressions as input.
-- Node status.
-- Output data formatter.
-### Changed
-- Allow payload of type buffer and base64.
+### Ajout
+- Accepte les expression JSONata en options.
+- Messages de status du noeud.
+- Choix du format de sortie.
+### Changement
+- Accepte les charges utiles au format buffer et base64.
 
 ## [0.1.1] - 2020-11-06 ![Relative date](https://img.shields.io/date/1604690140?label=)
-### Added
-- New error code 0xA004 for unknown payload type.
+### Ajout
+- Ajout du code d'erreur 0xA004 pour les charges utiles au format inconnues.
 
 ## [0.1.0] - 2020-11-05 ![Relative date](https://img.shields.io/date/1604531360?label=)
-### Changed
-- The node is now in parser category.
-- id_d2l is now a string instead of numeric.
-### Fixed 
-- Issues with D2L unique ID starting with 0.
+### Changement
+- Changement de la catégorie du noeud pour 'parser'.
+- id_d2l et maintenant une chaine de caractère à la place d'en nombre.
+### Correction 
+- Problèmes quand l'ID du D2L commence par 0.
 
 ## [0.0.2] - 2020-11-04 ![Relative date](https://img.shields.io/date/1604504235?label=)
-### Added
-- Changelog
-- Github Workflow for auto publish npm package.
-- Various npm options.
+### Ajout
+- Ce fichier
+- Github Workflow pour publier automatiquement le paquet npm.
 
 ## [0.0.1] - 2020-11-03 ![Relative date](https://img.shields.io/date/1604449693?label=)
-### Added
-- First working version.
+### Ajout
+- Première version fonctionnelle.
