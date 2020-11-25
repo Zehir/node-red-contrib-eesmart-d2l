@@ -1,4 +1,4 @@
-# Node Red eeSmart D2L
+# Node-Red eeSmart D2L
 [![GitHub](https://img.shields.io/github/license/zehir/node-red-contrib-eesmart-d2l)](https://github.com/Zehir/node-red-contrib-eesmart-d2l/blob/main/LICENSE)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Zehir/node-red-contrib-eesmart-d2l/NPM%20Publish)](https://github.com/Zehir/node-red-contrib-eesmart-d2l/actions)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/zehir/node-red-contrib-eesmart-d2l?include_prereleases&label=github&sort=semver)](https://github.com/Zehir/node-red-contrib-eesmart-d2l/releases)
@@ -7,42 +7,46 @@
 [![Liberapay giving](https://img.shields.io/liberapay/gives/Zehir)](https://liberapay.com/Zehir)
 [![Discord](https://img.shields.io/discord/779386253912047647?label=discord)](https://discord.gg/qTd363NKeu)
 
-Server node for eeSmart D2L Linky.
+>N.B: Because this tool is targeted for french people, the documentation is in french. The Linky are only installed in France.
 
-Converts the data sent by the D2L into readable data.
+Noeud pour traduire les données envoyées par le D2L d'eeSmart Linky.
 
-## Prerequisites
-- [eeSmart D2L](http://eesmart.fr/modulesd2l/erl-wifi-compteur-linky/)
-- [Node Red](https://nodered.org/) server
-- APP and IV Keys
+Convertit les données brutes en données lisibles.
 
-### Getting APP and IV Keys
-To get your keys for local server send an email to [support@eesmart.fr](mailto:support@eesmart.fr) with the folowwing data
-- Your D2L unique identifier
-- Your proof of purchase (optional ?)
+## Prérequis
+- Un compteur [Linky](https://www.enedis.fr/linky-compteur-communicant).
+- Un boitier [eeSmart D2L](http://eesmart.fr/modulesd2l/erl-wifi-compteur-linky/).
+- Un serveur [Node-Red](https://nodered.org/).
+- Les clés de communication applicative et IV de votre D2L.
 
-[Mail Template](mailto:support@eesmart.fr?subject=Requesting%20Keys%20for%20local%20server&body=Hello%2C%0D%0A%0D%0AI%20would%20like%20to%20get%20my%20keys%20to%20setup%20a%20local%20server%20for%20my%20D2L.%0D%0AHis%20unique%20ID%20is%3A%20XXXXXXXXXXXX%0D%0AI%20buy%20it%20from%20XXXXXXXXXXX%2C%20you%20will%20find%20my%20bill%20attached.%0D%0A%0D%0ACordially%2C%20XXXXX)
+### Récupération des clés
+Pour récupérer vos clés pour le serveur local il faut envoyer un mail à [support@eesmart.fr](mailto:support@eesmart.fr) avec ces informations :
+- L'identifiant unique de votre D2L (Un nombre écrit en dessous du QR Code)
+- Votre preuve d'achat (optionnel ?)
+
+[Mail Template](mailto:support@eesmart.fr?subject=Demande%20des%20cl%C3%A9s%20pour%20la%20configuration%20d'un%20serveur%20local&body=Bonjour%2CJ'aimerais%20recevoir%20mes%20cl%C3%A9s%20pour%20configurer%20un%20serveur%20local%20pour%20mon%20D2L.Sont%20identifiant%20unique%20est%20%3A%20XXXXXXXXXXXXJe%20l'ai%20achet%C3%A9%20sur%20XXXXXXXXXXX%2C%20vous%20trouverez%20ci-joint%20la%20facture.Cordialement%2C%20XXXXX)
 
 ## Installation
-You can install this [node](https://flows.nodered.org/node/node-red-contrib-eesmart-d2l) from `Manage Palette` option of node red and search for `node-red-contrib-eesmart-d2l`. 
+Vous pouvez installer ce [noeud](https://flows.nodered.org/node/node-red-contrib-eesmart-d2l) depuis l'option `Manage Palette` de Node-Red et rechercher `node-red-contrib-eesmart-d2l`. 
 
-Or by using NPM :
+Ou en utilisant NPM :
 ```bash
 npm install node-red-contrib-eesmart-d2l
 ```
 
-## Quickstart
-- Create a TCP in node of type "Listen on" port 7845.
-- Set the Output to a stream of Buffer.
-- Set the Topic to d2l_update.
-- Connect this node to the TCP in input.
-- Create a TCP out node of type Reply to TCP.
-- Connect this node to the TCP out output.
-- Connect a debug node to the Data and Error outputs.
-- Use the smartphone application to setup your D2L. Use the local server with the Node Red IP and the port 7845 or any used in step 1.
-- Read the documentation in Node Red.
+## Démarrage rapide
+- Créer un noeud "TCP in" de type "Listen on" port 7845.
+- Définir la sortie sur "Stream of Buffer".
+- Définit le topic à "d2l_update".
+- Ajouter un noeud "eeSmart D2L".
+- Connecter la sortie du noeud "TCP in" à l'entrée du noeud "eeSmart D2L".
+- Créer un noeud "TCP out" de type "Reply to TCP".
+- Connecter la sortie TCP du noeud "eeSmart D2L" au noeud "TCP out".
+- Connecter un noeud de debug aux sorties Données et Erreurs du noeud "eeSmart D2L".
+- Utiliser l'application pour smartphone pour configurer votre D2L. Utiliser le serveur local avec l'adresse IP de votre serveur Node-Red et le port définit dans la première étape.
+- Lire la documentation du plugin incluse dans Node-Red.
 
-## References
-- [Enedis documentation](https://www.enedis.fr/sites/default/files/Enedis-NOI-CPT_54E.pdf) - full description of data returned by the node.
-- [D2L User manual](http://eesmart.fr/wp-content/uploads/eeSmart-D2L-Notice-dinstallation.pdf) - how to configure your D2L.
-- [Discord](https://discord.gg/qTd363NKeu) - you can join us on Discord.
+## Références
+- [Documentation Enedis](https://www.enedis.fr/sites/default/files/Enedis-NOI-CPT_54E.pdf) - description complète des données envoyés par le Linky via le D2L.
+- [Notice d'installation D2L](http://eesmart.fr/wp-content/uploads/eeSmart-D2L-Notice-dinstallation.pdf) - comment configurer votre D2L.
+- [Discord](https://discord.gg/qTd363NKeu) - vous pouvez nous rejoindre sur discord.
