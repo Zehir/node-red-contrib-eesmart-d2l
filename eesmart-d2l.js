@@ -238,7 +238,7 @@ module.exports = function (RED) {
             } catch (error) {
                 data.success = false
                 data.error_code = "0xB002"
-                data.error_message = "Impossible de décoder le format JSON"
+                data.error_message = "Impossible de décoder le format JSON."
             }
 
             return data;
