@@ -6,6 +6,7 @@ Toutes les modifications notables apportées à ce projet seront documentées da
 et ce projet adhère au [Versionnage Sémantique](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased] :construction:
+## [1.0.0] - 2021-01-27 ![Relative date](https://img.shields.io/date/1611767136?label=) :tada:
 ### :boom: Mise à jour majeure :boom:
  - Vous allez devoir vérifier les connexions du noeud car la sortie erreur as été supprimée. Voir [Handling errors](https://nodered.org/docs/user-guide/handling-errors).
  - Les labels des données ont été modifiés afin d'être traduites en francais.
@@ -21,7 +22,7 @@ et ce projet adhère au [Versionnage Sémantique](https://semver.org/spec/v2.0.0
 ### :recycle: Changement
 - :truck: Séparation du code indépendant de node-red dans un autre [repo github](https://github.com/Zehir/eesmart-d2l).
 
-## [0.3.0] - 2020-11-25 ![Relative date](https://img.shields.io/date/1606309301?label=) :tada:
+## [0.3.0] - 2020-11-25 ![Relative date](https://img.shields.io/date/1606309301?label=) :speech_balloon:
 ### :recycle: Changement
 - Traduction en francais.
 
