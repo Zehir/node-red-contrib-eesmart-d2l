@@ -2,14 +2,25 @@
   "name": "node-red-contrib-eesmart-d2l",
   "version": "0.3.0",
   "description": "Converts the data sent by the D2L into readable data.",
-  "keywords": [ "node-red", "eesmart", "d2l", "linky"],
-  "homepage": "https://github.com/Zehir/node-red-contrib-eesmart-d2l",
-  "repository" : "git://github.com/Zehir/node-red-contrib-eesmart-d2l",
+  "keywords": [
+    "node-red",
+    "eesmart",
+    "d2l",
+    "linky"
+  ],
   "author": "@Zehir",
   "license": "MIT",
-  "node-red" : {
-        "nodes": {
-            "eesmart-d2l": "eesmart-d2l.js"
-        }
+  "homepage": "https://github.com/Zehir/node-red-contrib-eesmart-d2l",
+  "repository": "git://github.com/Zehir/node-red-contrib-eesmart-d2l",
+  "bugs": {
+    "url": "https://github.com/Zehir/node-red-contrib-eesmart-d2l/issues"
+  },
+  "node-red": {
+    "nodes": {
+      "eesmart-d2l": "eesmart-d2l.js"
     }
+  },
+  "dependencies": {
+    "eesmart-d2l": "^1.0.3"
+  }
 }
