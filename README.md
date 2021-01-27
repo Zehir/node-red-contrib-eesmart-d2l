@@ -13,6 +13,10 @@ Noeud pour traduire les données brutes envoyées par le D2L d'eeSmart Linky.
 
 Convertit les données brutes en données lisibles.
 
+### :boom: Mise à jour majeure 1.0.0 :boom:
+ - Vous allez devoir vérifier les connexions du noeud car la sortie erreur as été supprimée. Voir [Handling errors](https://nodered.org/docs/user-guide/handling-errors).
+ - Les labels des données ont été modifiés afin d'être traduites en francais.
+
 ## Prérequis
 - Un compteur [Linky](https://www.enedis.fr/linky-compteur-communicant).
 - Un boitier [eeSmart D2L](http://eesmart.fr/modulesd2l/erl-wifi-compteur-linky/).
