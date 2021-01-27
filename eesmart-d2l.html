@@ -27,14 +27,14 @@
             key_initialization_vector_type: {required: true, type: "text"},
         },
         inputs: 1,
-        outputs: 3,
+        outputs: 2,
         icon: "font-awesome/fa-bolt",
         label: function () {
             return this.name || "eeSmart D2L";
         },
         paletteLabel: 'eeSmart D2L',
         inputLabels: "TCP in",
-        outputLabels: ["Données", "Erreurs", "Sortie TCP"],
+        outputLabels: ["Données", "Sortie TCP"],
         oneditprepare: function () {
             $("#node-input-id_d2l").typedInput({
                 type: "text",
@@ -218,7 +218,7 @@
         </li>
         <li>
             <a href="https://discord.gg/qTd363NKeu">Discord</a>
-            - - vous pouvez nous rejoindre sur discord.
+            - vous pouvez nous rejoindre sur discord.
         </li>
     </ul>
 
