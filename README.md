@@ -3,6 +3,7 @@
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Zehir/node-red-contrib-eesmart-d2l/NPM%20Publish)](https://github.com/Zehir/node-red-contrib-eesmart-d2l/actions)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/zehir/node-red-contrib-eesmart-d2l?include_prereleases&label=github&sort=semver)](https://github.com/Zehir/node-red-contrib-eesmart-d2l/releases)
 [![npm](https://img.shields.io/npm/v/node-red-contrib-eesmart-d2l)](https://www.npmjs.com/package/node-red-contrib-eesmart-d2l)
+[![dependencies](https://status.david-dm.org/gh/Zehir/node-red-contrib-eesmart-d2l.svg)](https://david-dm.org/Zehir/node-red-contrib-eesmart-d2l)
 [![GitHub issues](https://img.shields.io/github/issues/Zehir/node-red-contrib-eesmart-d2l)](https://github.com/Zehir/node-red-contrib-eesmart-d2l/issues)
 [![Liberapay giving](https://img.shields.io/liberapay/gives/Zehir)](https://liberapay.com/Zehir)
 [![Discord](https://img.shields.io/discord/779386253912047647?label=discord)](https://discord.gg/qTd363NKeu)
