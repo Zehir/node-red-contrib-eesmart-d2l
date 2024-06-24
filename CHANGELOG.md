@@ -4,6 +4,12 @@
 
 ### Patch Changes
 
+- 14a5241: Update readme
+
+## 1.0.1
+
+### Patch Changes
+
 - a9396d9: Update readme
 
 Toutes les modifications notables apportées à ce projet seront documentées dans ce fichier.
