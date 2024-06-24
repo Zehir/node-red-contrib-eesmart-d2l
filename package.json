@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-eesmart-d2l",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Converts the data sent by the D2L into readable data.",
   "keywords": [
     "node-red",
@@ -15,10 +15,8 @@
   "bugs": {
     "url": "https://github.com/Zehir/node-red-contrib-eesmart-d2l/issues"
   },
-  "node-red": {
-    "nodes": {
-      "eesmart-d2l": "eesmart-d2l.js"
-    }
+  "scripts": {
+    "release": "changeset publish"
   },
   "packageManager": "pnpm@9.4.0",
   "dependencies": {
@@ -26,5 +24,10 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.6"
+  },
+  "node-red": {
+    "nodes": {
+      "eesmart-d2l": "eesmart-d2l.js"
+    }
   }
 }
