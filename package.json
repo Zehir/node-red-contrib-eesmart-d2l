@@ -20,6 +20,7 @@
       "eesmart-d2l": "eesmart-d2l.js"
     }
   },
+  "packageManager": "pnpm@9.4.0",
   "dependencies": {
     "eesmart-d2l": "^1.0.3"
   }
