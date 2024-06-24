@@ -23,5 +23,8 @@
   "packageManager": "pnpm@9.4.0",
   "dependencies": {
     "eesmart-d2l": "^1.0.3"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.6"
   }
 }
