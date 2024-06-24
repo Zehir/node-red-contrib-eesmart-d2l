@@ -10,11 +10,23 @@
   ],
   "author": "@Zehir",
   "license": "MIT",
-  "homepage": "https://github.com/Zehir/node-red-contrib-eesmart-d2l",
-  "repository": "git://github.com/Zehir/node-red-contrib-eesmart-d2l",
+  "homepage": "https://github.com/deconz-community/node-red-contrib-eesmart-d2l",
   "bugs": {
-    "url": "https://github.com/Zehir/node-red-contrib-eesmart-d2l/issues"
+    "url": "https://github.com/deconz-community/node-red-contrib-eesmart-d2l/issues/"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deconz-community/node-red-contrib-eesmart-d2l.git"
+  },
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/sponsors/Zehir"
+  },
+  "files": [
+    "eesmart-d2l.html",
+    "eesmart-d2l.js",
+    "*.md"
+  ],
   "scripts": {
     "release": "changeset publish"
   },
