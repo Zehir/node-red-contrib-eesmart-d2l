@@ -1,0 +1,37 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      eesmart-d2l:
+        specifier: ^1.0.3
+        version: 1.0.3
+
+packages:
+
+  binary-parser@1.9.2:
+    resolution: {integrity: sha512-aQvTapiRIV/x7bAaR2KT3Ptyjff4R8i1zxljgw/Je2kUt0babNPUdtuo7AKN4CWklyzPK4u5e99Z9/3Ib03u9w==}
+    engines: {node: '>=10'}
+
+  eesmart-d2l@1.0.3:
+    resolution: {integrity: sha512-sjxvyA2dvB8h9IKSHuW3kIa/UfIdh026ByJtSf0DYBcphAzK10OcSNKBrraykTsV0Y1zm/5uqEp8Bu8ANSXWGQ==}
+
+  fast-text-encoding@1.0.6:
+    resolution: {integrity: sha512-VhXlQgj9ioXCqGstD37E/HBeqEGV/qOD/kmbVG8h5xKBYvM1L3lR1Zn4555cQ8GkYbJa8aJSipLPndE1k6zK2w==}
+
+snapshots:
+
+  binary-parser@1.9.2:
+    dependencies:
+      fast-text-encoding: 1.0.6
+
+  eesmart-d2l@1.0.3:
+    dependencies:
+      binary-parser: 1.9.2
+
+  fast-text-encoding@1.0.6: {}
