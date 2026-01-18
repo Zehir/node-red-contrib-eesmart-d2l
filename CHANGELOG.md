@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.3
+
+### Patch Changes
+
+- debcb94: Update publish workflow
+- 6d9273c: Fix repository url
+
 ## 1.0.2
 
 ### Patch Changes
