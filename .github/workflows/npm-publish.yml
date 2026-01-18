@@ -25,6 +25,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Update npm
+        run: npm update -g npm # temporary until setup-node action comes with npm version that contains oidc setup by default
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
